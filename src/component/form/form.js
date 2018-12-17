@@ -5,15 +5,15 @@ class Form extends Component {
     constructor(props){
         super(props)
         this.state = {
+            products: [],
             productName: '',
             productPrice: '',
-            productUrl: ''
+            imageUrl: ''
         }
+        // this.cancelInput = this.cancelInput.bind(this);
     }
 
     handleChange(prop, val){
-        console.log('handleChange function')
-        console.log(val)
         this.setState({
             [prop]: val
         })
@@ -24,12 +24,25 @@ class Form extends Component {
         this.setState({
             productName:'',
             productPrice: '',
-            productUrl: ''
+            imageUrl: ''
         })
     }
 
-    addNewProduct(){
+    addNewProduct(e){
+        e.preventDefault()
         console.log('add product function')
+        let newProduct = {
+            productName: this.state.productName,
+            productPrice: this.state.productPrice,
+            imageUrl: this.state.imageUrl
+        }
+        console.log(newProduct)
+        axios.post('/api/product', newProduct)
+            .then((res) => {
+                this.setState({
+                    products: res.data
+                })
+            })
     }
 
     render(){
@@ -42,12 +55,12 @@ class Form extends Component {
                         onChange={(e) => this.handleChange('productName', e.target.value)}/>
                     <input type="text" placeholder='Product Price'
                         onChange={(e) => this.handleChange('productPrice', e.target.value)} />
-                    <input type="text" placeholder='Product URL'
-                        onChange={(e) => this.handleChange('productURL', e.target.value)} />
+                    <input type="text" placeholder='Image URL'
+                        onChange={(e) => this.handleChange('imageUrl', e.target.value)} />
                     <button id='btnCancel'
                             onClick={() => this.cancelInput()}>Cancel</button>
                     <button id="btnAdd"
-                            onClick={() => this.addNewProduct()}>Add New Product
+                            onClick={(e) => this.addNewProduct(e)}>Add New Product
                     </button>
                 </form>
 

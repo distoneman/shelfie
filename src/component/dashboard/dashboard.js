@@ -11,12 +11,21 @@ class Dashboard extends Component {
         }
     }
 
-    render(){
 
+    render(){
+        console.log(this.state.products)
+        let displayList = this.props.list.map(product => {
+            return(
+                <div>{product.product_name}</div>
+            )
+        })
+        
         return(
+
             <div>
                 <div>Dashboard</div>
                 <Product />
+                {displayList}
             </div>
         )
     }

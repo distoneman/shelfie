@@ -11,9 +11,12 @@ const app = express();
 app.use(bodyParser.json());
 
 massive(CONNECTION_STRING).then(connection => {
-    console.log(connection)
     app.set('db', connection);
 })
+
+app.get('/api/inventory', ctrl.getAll);
+app.post('/api/inventory', ctrl.createOneProduct);
+
 
 // console.log(SERVER_PORT)
 app.listen(SERVER_PORT, () => {
